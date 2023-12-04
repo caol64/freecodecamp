@@ -25,18 +25,34 @@ app.get("/api/:date", function (req, res) {
   const { date } = req.params; // equivalent to const date = req.params.date;
   const numericValue = Number(date);
   let dateObj;
-  if (isNaN(numericValue)) {
-    dateObj = new Date(date);
-  } else {
-    dateObj = new Date(numericValue);
+  try {
+    if (isNaN(numericValue)) {
+      dateObj = new Date(date);
+    } else {
+      dateObj = new Date(numericValue);
+    }
+    if (isNaN(dateObj)) {
+      throw new Error('Invalid Date');
+    }
+    res.json({
+      unix: dateObj.getTime(),
+      utc: dateObj.toUTCString(),
+    });
+  } catch (err) {
+    res.json({
+      error: err.message
+    });
   }
+  
+});
+
+app.get("/api", function (req, res) {
+  const dateObj = new Date();
   res.json({
     unix: dateObj.getTime(),
     utc: dateObj.toUTCString(),
   });
 });
-
-
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
