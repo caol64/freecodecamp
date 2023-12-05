@@ -14,17 +14,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cors());
 
-app.use('/public', express.static(`${process.cwd()}/public`));
+// http://expressjs.com/en/starter/static-files.html
+app.use('/public', express.static(__dirname + '/public'));
 
-app.get('/', function(req, res) {
-  res.sendFile(process.cwd() + '/views/index.html');
+// http://expressjs.com/en/starter/basic-routing.html
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/views/index.html');
 });
 
 // Your first API endpoint
 app.get('/api/shorturl/:shortUrl', function(req, res) {
   let urlKey = Number(req.params.shortUrl);
-  if (!isNaN(urlKey) && !map.get(urlKey)) {
-    res.redirect(map.get());
+  if (!isNaN(urlKey) && map.get(urlKey)) {
+    res.redirect(map.get(urlKey));
   } else {
     res.json({error: 'invalid url'});
   }
