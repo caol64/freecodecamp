@@ -1,7 +1,13 @@
-## 01. Managing Packages with NPM
-
-## 02. Basic Node and Express
-
-## 03. MongoDB and Mongoose
-
-## 04. Back End Development and APIs Projects
+# Key Points
+- 1-3课程都可以提交本地地址（localhost），4-8课程必须部署到云服务器（public domain）
+- 免费的云服务器可以选择vercel，我4-8课程都是构建在上面的，每个项目下都有vercel.json供参考
+- 1-6都没什么难度，课程7遇到比较大的坑，这里详细说说
+  
+  我是使用的atlas的免费mongodb作为数据库（免费+免费=性能极差），在部署完验证时出现大量的超时（本身vercel访问要开代理，再加上跨区访问mongodb，速度简直哭死），这里验证卡了好几个小时
+  - 优化1：将mongodb所在区移到vercel同一个区（美东）
+  - 优化2：优化连接池连接数和超时时间等（好像没啥效果）
+  - 优化3：使用cloudflare的dns优化vercel的网络（正好手头有多余的域名）相当于自己给vercel的应用加了个域名，通过cloudflare进行全球加速
+  
+  通过以上三点终于验证通过。这里建议大家对于课程7要有准备，如果在国内，最好选一个网络优一点的服务器。数据库没必要选mongodb，甚至自己写一个内存数据库都行。如果你想省钱，就得折腾。
+- 课程8如果你使用vercel，记得上传目录设为/tmp，其它目录不允许上传文件。
+- 最后祝大家编码愉快。
