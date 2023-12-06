@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, poolSize: 10, keepAlive: 120 });
 
 const userSchema = new mongoose.Schema({
     username: { type: String, unique: true, required: true }

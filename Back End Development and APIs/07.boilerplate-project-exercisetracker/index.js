@@ -3,7 +3,6 @@ const app = express()
 const cors = require('cors')
 require('dotenv').config()
 const bodyParser = require("body-parser");
-const mongoose = require('mongoose');
 
 const User = require("./model.js").UserModel;
 const Exercise = require("./model.js").ExerciseModel;
@@ -59,10 +58,10 @@ app.post('/api/users/:_id/exercises', async (req, res, next) => {
     await exercise.save();
     res.json({
       username: user.username,
-      _id: exercise._id,
+      _id: user._id,
       description: exercise.description,
       duration: exercise.duration,
-      date: exercise.date
+      date: exercise.date.toDateString()
     });
   } catch (error) {
     return next({message: error.message});
@@ -74,7 +73,7 @@ app.get('/api/users/:_id/logs', async (req, res, next) => {
   let to = req.query.to;
   let limit = req.query.limit;
   if (!from) {
-    from = '2023-01-01';
+    from = '1970-01-01';
   }
   if (!to) {
     to = new Date().toString();
@@ -89,6 +88,9 @@ app.get('/api/users/:_id/logs', async (req, res, next) => {
     if (!user) {
       return next({message: 'User not found'});
     }
+    // const count = await Exercise.countDocuments({
+    //   user_id: user._id
+    // });
     const exercises = await Exercise.find({
       user_id: user._id,
       date: {
@@ -114,7 +116,7 @@ app.get('/api/users/:_id/logs', async (req, res, next) => {
     res.json({
       username: user.username,
       _id: user._id,
-      count: exercises.length,
+      count: logs.length,
       log: logs
     });
   } catch (error) {
