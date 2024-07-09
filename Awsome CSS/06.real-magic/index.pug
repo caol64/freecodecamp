@@ -1,0 +1,99 @@
+svg(width='0' height='0')
+	filter#open(color-interpolation-filters='sRGB' 
+	            primitiveUnits='objectBoundingBox'
+							x='0' y='0' width='100%' height='100%')
+		feColorMatrix(values=`0 0 0 0 1 
+		                      0 0 0 0 0 
+													0 0 0 0 0 
+													0 0 1 0 0` result='base')
+		feColorMatrix(in='SourceGraphic'
+		              values=`1 0 0 0 0 
+									        0 1 0 0 0 
+													0 0 0 0 0 
+													0 0 0 .5 0` result='grad')
+		feDisplacementMap(in='base' scale='.1035' 
+		                  xChannelSelector='G' 
+											yChannelSelector='R' y='.1' height='.8')
+		feComponentTransfer
+			feFuncR(type='discrete' tableValues='0')
+			feFuncB(type='discrete' tableValues='1')
+		feBlend(in='base' mode='lighten' result='full')
+		feComponentTransfer(in='grad')
+			feFuncR(type='discrete' tableValues='0')
+			feFuncA(type='discrete' tableValues='1')
+		feBlend(in='full' mode='lighten')
+	
+	filter#smooth(color-interpolation-filters='sRGB')
+		feColorMatrix(values=`1 0 0 0 0 
+		                      0 0 0 0 0 
+													0 0 1 0 0 
+													0 0 0 0 1`)
+		feGaussianBlur(stdDeviation='2')
+		feComponentTransfer(result='text')
+			feFuncR(type='table' tableValues='-2 3')
+			feFuncB(type='table' tableValues='-2 3')
+		feColorMatrix(in='SourceGraphic'
+		              values=`0 0 0 0 0 
+		                      0 1 0 0 0 
+													0 0 0 0 0 
+													0 0 0 0 1`)
+		feBlend(in='text' mode='lighten')
+	
+	filter#texture(color-interpolation-filters='sRGB' 
+	                primitiveUnits='objectBoundingBox'
+							    y='0' height='100%')
+		feTurbulence(type='fractalNoise' baseFrequency='.371 .713' numOctaves='4' 
+		             result='topnoise')
+		feTurbulence(baseFrequency='.173 .317')
+		feDisplacementMap(in='topnoise' scale='.01' xChannelSelector='R')
+		feSpecularLighting(lighting-color='currentColor' result='texture1')
+			feDistantLight(azimuth='90' elevation='50')
+		feFlood(flood-color='#fff')
+		feBlend(in='texture1' result='paper_3d')
+		
+		feColorMatrix(in='SourceGraphic'
+		              values=`0 0 0 0 .35 
+		                      0 0 0 0 .35 
+													0 0 0 0 .35 
+													1 0 0 0 0` result='basetext')
+		feOffset(dx='.002' dy='.002')
+		feBlend(in='paper_3d' mode='screen')
+		feComposite(in2='basetext' operator='out' result='cutshape')
+		
+		feColorMatrix(in='SourceGraphic'
+		              values=`0 0 0 0 0 
+									        0 0 0 0 0 
+													0 0 0 0 0 
+													0 0 1 0 0`)
+		feComposite(in='paper_3d' operator='in' result='basepeel')
+		
+		feColorMatrix(in='SourceGraphic'
+		              values=`0 0 0 0 0 
+									        0 1 0 0 0 
+													0 0 0 0 0 
+													0 0 0 1 0` result='basemap')
+		feColorMatrix(values=`0 0 0 0 .35 
+		                      0 0 0 0 .35 
+													0 0 0 0 .35 
+													0 -1 0 0 1`)
+		feComponentTransfer
+			feFuncA(type='table' tableValues='.5 0 .5')
+		feComponentTransfer
+			feFuncA(type='gamma' exponent='.333')
+		feBlend(in2='basepeel' mode='screen')
+		feComposite(in2='basepeel' operator='in' result='fullpeel')
+		
+		feComponentTransfer(in='basemap')
+			feFuncA(type='discrete' tableValues='.5')
+		feDisplacementMap(in='fullpeel' scale='-.1' 
+		                  xChannelSelector='G'
+											yChannelSelector='G' y='.1')
+		feColorMatrix(values=`0 0 0 0 0 
+		                      0 0 0 0 0 
+													0 0 0 0 0 
+													0 .5 0 0 0`)
+		feGaussianBlur(stdDeviation='.01')
+		feBlend(in2='cutshape' mode='hard-light')
+		feBlend(in='fullpeel')
+
+div here is real magic

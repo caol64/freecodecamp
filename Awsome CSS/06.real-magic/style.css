@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Kode+Mono:wght@700&family=Nova+Mono&family=Rubik+Mono+One&display=swap");
+@property --k {
+  syntax: "<number>";
+  initial-value: 1;
+  inherits: true;
+}
+* {
+  margin: 0;
+}
+
+html, body {
+  display: grid;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  background: url(photo.jpeg) 50%/cover;
+  color: darkorange;
+}
+
+div {
+  --d: (1lh - 1ch);
+  --o: calc(.5*var(--d));
+  box-sizing: border-box;
+  place-self: start center;
+  overflow: hidden;
+  position: relative;
+  margin-left: var(--o);
+  border: solid 0 transparent;
+  border-width: 0.5lh 0;
+  padding-left: var(--o);
+  width: min-content;
+  color: #00f;
+  font: 700 17vmin/1 kode mono, nova mono, rubik mono one, monospace;
+  letter-spacing: calc(var(--d));
+  text-transform: uppercase;
+  clip-path: inset(0 var(--o) 0 0);
+  isolation: isolate;
+  filter: url(#open) url(#smooth) url(#texture);
+  transition: --k 0.35s ease-out;
+}
+div::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgb(0, 128, 0) var(--o), rgb(0%, calc(50% * (1 + 1 - var(--k))), 0%)), linear-gradient(90deg, rgb(128, 0, 0) var(--o), rgba(50%, 0%, 0%, var(--k))), linear-gradient(rgb(calc(50% * (1 + 0.9 * (1 - var(--k)))), 0%, 0%), rgb(calc(50% * (1 - 0.9 * (1 - var(--k)))), 0%, 0%));
+  background-size: 1lh 1lh;
+  background-blend-mode: lighten, normal;
+  mix-blend-mode: lighten;
+  pointer-events: none;
+  content: "";
+}
+div:hover {
+  --k: 0 ;
+}
+
+/*# sourceMappingURL=style.css.map */

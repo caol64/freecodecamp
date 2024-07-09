@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Here is real magic</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <svg width="0" height="0">
+    <filter id="open" color-interpolation-filters="sRGB" primitiveUnits="objectBoundingBox" x="0" y="0" width="100%"
+      height="100%">
+      <feColorMatrix values="0 0 0 0 1 
+		                      0 0 0 0 0 
+													0 0 0 0 0 
+													0 0 1 0 0" result="base"></feColorMatrix>
+      <feColorMatrix in="SourceGraphic" values="1 0 0 0 0 
+									        0 1 0 0 0 
+													0 0 0 0 0 
+													0 0 0 .5 0" result="grad"></feColorMatrix>
+      <feDisplacementMap in="base" scale=".1035" xChannelSelector="G" yChannelSelector="R" y=".1" height=".8">
+      </feDisplacementMap>
+      <feComponentTransfer>
+        <feFuncR type="discrete" tableValues="0"></feFuncR>
+        <feFuncB type="discrete" tableValues="1"></feFuncB>
+      </feComponentTransfer>
+      <feBlend in="base" mode="lighten" result="full"></feBlend>
+      <feComponentTransfer in="grad">
+        <feFuncR type="discrete" tableValues="0"></feFuncR>
+        <feFuncA type="discrete" tableValues="1"></feFuncA>
+      </feComponentTransfer>
+      <feBlend in="full" mode="lighten"></feBlend>
+    </filter>
+    <filter id="smooth" color-interpolation-filters="sRGB">
+      <feColorMatrix values="1 0 0 0 0 
+		                      0 0 0 0 0 
+													0 0 1 0 0 
+													0 0 0 0 1"></feColorMatrix>
+      <feGaussianBlur stdDeviation="2"></feGaussianBlur>
+      <feComponentTransfer result="text">
+        <feFuncR type="table" tableValues="-2 3"></feFuncR>
+        <feFuncB type="table" tableValues="-2 3"></feFuncB>
+      </feComponentTransfer>
+      <feColorMatrix in="SourceGraphic" values="0 0 0 0 0 
+		                      0 1 0 0 0 
+													0 0 0 0 0 
+													0 0 0 0 1"></feColorMatrix>
+      <feBlend in="text" mode="lighten"></feBlend>
+    </filter>
+    <filter id="texture" color-interpolation-filters="sRGB" primitiveUnits="objectBoundingBox" y="0" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".371 .713" numOctaves="4" result="topnoise"></feTurbulence>
+      <feTurbulence baseFrequency=".173 .317"></feTurbulence>
+      <feDisplacementMap in="topnoise" scale=".01" xChannelSelector="R"></feDisplacementMap>
+      <feSpecularLighting lighting-color="currentColor" result="texture1">
+        <feDistantLight azimuth="90" elevation="50"></feDistantLight>
+      </feSpecularLighting>
+      <feFlood flood-color="#fff"></feFlood>
+      <feBlend in="texture1" result="paper_3d"></feBlend>
+      <feColorMatrix in="SourceGraphic" values="0 0 0 0 .35 
+		                      0 0 0 0 .35 
+													0 0 0 0 .35 
+													1 0 0 0 0" result="basetext"></feColorMatrix>
+      <feOffset dx=".002" dy=".002"></feOffset>
+      <feBlend in="paper_3d" mode="screen"></feBlend>
+      <feComposite in2="basetext" operator="out" result="cutshape"></feComposite>
+      <feColorMatrix in="SourceGraphic" values="0 0 0 0 0 
+									        0 0 0 0 0 
+													0 0 0 0 0 
+													0 0 1 0 0"></feColorMatrix>
+      <feComposite in="paper_3d" operator="in" result="basepeel"></feComposite>
+      <feColorMatrix in="SourceGraphic" values="0 0 0 0 0 
+									        0 1 0 0 0 
+													0 0 0 0 0 
+													0 0 0 1 0" result="basemap"></feColorMatrix>
+      <feColorMatrix values="0 0 0 0 .35 
+		                      0 0 0 0 .35 
+													0 0 0 0 .35 
+													0 -1 0 0 1"></feColorMatrix>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues=".5 0 .5"></feFuncA>
+      </feComponentTransfer>
+      <feComponentTransfer>
+        <feFuncA type="gamma" exponent=".333"></feFuncA>
+      </feComponentTransfer>
+      <feBlend in2="basepeel" mode="screen"></feBlend>
+      <feComposite in2="basepeel" operator="in" result="fullpeel"></feComposite>
+      <feComponentTransfer in="basemap">
+        <feFuncA type="discrete" tableValues=".5"></feFuncA>
+      </feComponentTransfer>
+      <feDisplacementMap in="fullpeel" scale="-.1" xChannelSelector="G" yChannelSelector="G" y=".1"></feDisplacementMap>
+      <feColorMatrix values="0 0 0 0 0 
+		                      0 0 0 0 0 
+													0 0 0 0 0 
+													0 .5 0 0 0"></feColorMatrix>
+      <feGaussianBlur stdDeviation=".01"></feGaussianBlur>
+      <feBlend in2="cutshape" mode="hard-light"></feBlend>
+      <feBlend in="fullpeel"></feBlend>
+    </filter>
+  </svg>
+  <div>here is real magic</div>
+</body>
+
+</html>
