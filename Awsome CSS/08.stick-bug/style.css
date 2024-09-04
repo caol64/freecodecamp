@@ -1,0 +1,734 @@
+:root {
+    --bug-light: #9e8971;
+    --bug-normal: #6a5c4c;
+    --bug-dark: #200100;
+}
+
+*:before, *:after {
+    content: "";
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	width: 100vw;
+    height: 100vh;
+	background: linear-gradient(15deg, #f5fff5, #e1ffbf);
+	/*transform: scale(3.5) translate(1vmin, 1vmin);*/
+}
+
+body *, *:before, *:after {
+	box-sizing: border-box;
+	position: absolute;
+	margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+
+
+/*** STICK BUG ***/
+
+.stickbug {
+    width: 90vmin;
+    height: 90vmin;
+}
+
+.stickbug  > * {
+	position: absolute;
+}
+
+
+.head {
+	background: linear-gradient(4deg, var(--bug-dark) 0%, transparent 90%), linear-gradient(14deg, var(--bug-dark) 0%, var(--bug-light) 80%);
+    width: 4vmin;
+    height: 2.25vmin;
+    top: 45.5vmin;
+    border-radius: 75% 100% 100% 75%;
+    left: 38.75vmin;
+    transform: rotate(-64deg);
+    z-index: 2;
+}
+
+.head:before {
+    width: 2.5vmin;
+    height: 2.15vmin;
+    border-radius: 100%;
+    top: 0.05vmin;
+    left: -0.3vmin;
+    border-left: 0.3vmin dotted var(--bug-normal);
+}
+
+
+.eyes {
+    width: 1.05vmin;
+    height: 2.55vmin;
+    top: -0.15vmin;
+    left: 1vmin;
+    transform: rotate(0deg);
+}
+
+.eyes:before, .eyes:after {
+    background: #383838;
+    width: 0.75vmin;
+    height: 0.3vmin;
+    border-radius: 1vmin 1vmin 0 0;
+    transform: rotate(-8deg);
+}
+
+.eyes:after {
+    top: 2.25vmin;
+    transform: rotate(12deg);
+    background: #1b1b1b;
+    border-radius: 0% 0% 1vmin 1vmin;
+    left: 0.05vmin;
+}
+
+
+.antenna {
+    width: 8vmin;
+    height: 8vmin;
+    top: -3vmin;
+    left: -7vmin;
+}
+
+.antenna:before, .antenna:after {
+    width: 15vmin;
+    height: 5vmin;
+    border: 0.05vmin solid transparent;
+    border-radius: 100%;
+    border-top: 0.35vmin solid var(--bug-normal);
+    top: 4.35vmin;
+    transform: rotate(-15deg);
+    left: -4.5vmin;
+    opacity: 0.5;
+    clip-path: polygon(0 0, 100% 0, 100% 10%, 0 10%);
+	transform-origin: 75% 5%;
+    animation: palp1 0.75s 0s ease infinite;
+}
+
+.antenna:after {
+    transform: rotate(200deg);
+    top: 3.6vmin;
+    left: 3.75vmin;
+    width: 19vmin;
+    transform-origin: 20% 5%;
+    animation: palp2 0.75s 0.33s ease infinite;
+}
+
+.stickbug:hover .antenna:after,
+.stickbug:hover .antenna:before {
+    animation-play-state: paused;
+}
+
+@keyframes palp1 {
+	  0% { transform: rotate(-15deg); }
+	 20% { transform: rotate(-12deg); }
+	 40% { transform: rotate(-17deg); }
+	 60% { transform: rotate(-13deg); }
+	 80% { transform: rotate(-16deg); }
+	100% { transform: rotate(-15deg); }
+}
+
+@keyframes palp2 {
+	  0% { transform: rotate(200deg); }
+	 20% { transform: rotate(203deg); }
+	 40% { transform: rotate(198deg); }
+	 60% { transform: rotate(202deg); }
+	 80% { transform: rotate(197deg); }
+	100% { transform: rotate(200deg); }
+}
+
+
+.body {
+    width: 50vmin;
+    height: 3vmin;
+    top: 26.75vmin;
+    transform: rotate(-57deg);
+    left: 27.5vmin;
+	z-index: 1;
+}
+
+.body span {
+    width: 12vmin;
+    height: 2.5vmin;
+    background: linear-gradient(0deg, var(--bug-dark) 0% , var(--bug-light) 80%);
+    left: 5vmin;
+    border-radius: 100% 35% 35% 100%;
+    transform: rotate(0deg);
+    top: 0.225vmin;
+}
+
+.body span:before {
+	border-radius: 30% 100% 100% 30%;
+    top: 0.05vmin;
+    left: -1.1vmin;
+    z-index: -4;
+    background: linear-gradient(3deg, var(--bug-dark) 0% , var(--bug-light) 80%);
+    width: 2.5vmin;
+    height: 2.15vmin;
+    transform: rotate(4deg);
+}
+
+.body span + span {
+    width: 9vmin;
+    left: 15.5vmin;
+    transform: rotate(0deg);
+    top: 0.25vmin;
+}
+
+.body span + span + span {
+    width: 23vmin;
+    left: 25.5vmin;
+    border-radius: 15% 100% 150% 25%;
+    transform: rotate(0deg);
+    top: 1.05vmin;
+    height: 1.13vmin;
+}
+
+.body span:after {
+	border-radius: 100% 16%;
+    top: 0.05vmin;
+    left: -1.25vmin;
+    z-index: -4;
+    background: linear-gradient(64deg, var(--bug-normal) 0%, var(--bug-dark) 15%, var(--bug-light) 70%, var(--bug-normal) 100%);
+    width: 2.15vmin;
+    height: 2.25vmin;
+    transform: rotate( -75deg );
+}
+
+.body span + span:after {
+	left: -2.25vmin;
+    background: linear-gradient(90deg, var(--bug-normal) 0%, var(--bug-dark) 15% , var(--bug-light) 70%, var(--bug-normal) 100%);
+    width: 3.75vmin;
+    transform: rotate(-84deg);
+	
+    height: 2.5vmin;
+	
+}
+
+.body span + span + span:after {
+	top: -0.95vmin;
+    left: -4.3vmin;
+    background: linear-gradient(66deg, var(--bug-normal) 0%, var(--bug-dark) 15% , var(--bug-light) 70%, var(--bug-normal) 100%);
+    width: 3.35vmin;
+    transform: rotate(-74deg);
+}
+
+.body span + span + span:before {
+    transform: rotate(0deg);
+    top: -0.55vmin;
+    left: -2.1vmin;
+    width: 5vmin;
+}
+
+.body span + span + span > span {
+	border-radius: 0% 100% 100% 0%;
+    z-index: -4;
+    background: linear-gradient(3deg, var(--bug-dark) 0% , var(--bug-light) 80%);
+    height: 2.05vmin;
+    transform: rotate(0deg);
+    top: -0.5vmin;
+    left: 1.9vmin;
+    width: 5vmin;
+}
+
+.body span + span + span > span:nth-child(2) {
+	height: 1.90vmin;
+    left: 5.9vmin;
+    z-index: -3;
+    width: 4.5vmin;
+    top: -0.4vmin;
+}
+
+.body span + span + span > span:nth-child(3) {
+	left: 9.5vmin;
+    z-index: -3;
+    width: 4.5vmin;
+    height: 1.7vmin;
+    top: -0.3vmin;
+}
+
+.body span + span + span > span:nth-child(4) {
+	left: 13.4vmin;
+    z-index: -3;
+    width: 4vmin;
+    height: 1.5vmin;
+    top: -0.225vmin;
+}
+
+.body span + span + span > span:nth-child(5) {
+	left: 16.6vmin;
+    z-index: -3;
+    width: 3.5vmin;
+    height: 1.4vmin;
+    top: -0.15vmin;
+}
+
+.body span + span + span > span:nth-child(6) {
+	left: 19.75vmin;
+    z-index: -3;
+    width: 2.15vmin;
+    height: 1.05vmin;
+    top: -0.025vmin;
+    transform: rotate(-2deg);
+}
+
+.body span + span + span > span:before, .body span + span + span > span:after {
+	display: none;
+}
+
+
+
+
+/*** LEGS ***/
+
+.legs {
+    width: 100%;
+    height: 100%;
+	z-index: 0;
+}
+
+.legs .top {
+    width: 40vmin;
+    height: 40vmin;
+    left: 8vmin;
+    top: 42vmin;
+}
+
+.legs .top .left {
+    width: 10vmin;
+    height: 40vmin;
+    left: 32vmin;
+}
+
+.legs .top .right {
+    width: 34vmin;
+    height: 40vmin;
+    left: 0vmin;
+    top: 1vmin;
+}
+
+.legs div span:nth-child(1) {
+    background: linear-gradient(90deg, var(--bug-dark) 0% , var(--bug-light) 90%);
+    width: 0.65vmin;
+    height: 7.5vmin;
+    left: 3.75vmin;
+    transform: rotate(-196deg);
+    top: 5.75vmin;	
+}
+
+.legs div .left span:nth-child(1):before {
+    background: linear-gradient(90deg, var(--bug-dark) 0% , var(--bug-light) 90%);
+    width: 0.5vmin;
+    height: 3vmin;
+    transform: rotate(2deg);
+    top: 7.15vmin;
+    left: 0.05vmin;
+}
+
+.legs div span:nth-child(2) {
+    background: linear-gradient(-90deg, var(--bug-dark) 0% , var(--bug-light) 90%);
+    width: 0.67vmin;
+    height: 20vmin;
+    left: 5.265vmin;
+    transform: rotate(-3deg);
+    top: 13vmin;
+    border-radius: 0% 50% 100% 100%;
+}
+
+.legs div span:nth-child(3) {
+    width: 6vmin;
+    height: 3vmin;
+    border: 0.25vmin solid transparent;
+    border-radius: 100%;
+    border-top: 0.35vmin solid #65422d;
+    top: 33.75vmin;
+    transform: rotate(88deg);
+    left: 1.95vmin;
+	filter: drop-shadow(-6px 0px 7px #00000040);
+}
+
+.legs div span:nth-child(3):after {
+    left: 1.25vmin;
+    border-radius: 100% 45%;
+    transform: rotate(78deg);
+    background: #573d32;
+    width: 0.4vmin;
+    height: 3.5vmin;
+    z-index: -1;
+    top: -1.65vmin;
+}
+
+
+
+.legs div div span {
+	border-radius: 15%;
+}
+
+.legs div .right span:nth-child(1) {
+    height: 14vmin;
+    left: 22vmin;
+    transform: rotate(-109deg);
+    top: -0.9vmin;
+	
+	
+}
+
+.legs div .right span:nth-child(1):before {
+    background: linear-gradient(90deg, var(--bug-dark) 0% , var(--bug-light) 90%);
+    width: 0.5vmin;
+    height: 4.25vmin;
+    transform: rotate(-9deg);
+    top: 13.85vmin;
+    left: 0.4vmin;
+}
+
+.legs div .right span:nth-child(2) {
+    width: 0.75vmin;
+    height: 21vmin;
+    left: 9.65vmin;
+    transform: rotate(35deg);
+    top: 6.5vmin;
+}
+
+.legs div .right span:nth-child(3) {
+    left: 0vmin;
+    transform: rotate(122deg) rotateX(180deg);
+    top: 27vmin;
+}
+
+
+
+
+/*** LEGS MID ***/
+
+.legs .mid {
+    width: 55vmin;
+    height: 25vmin;
+    left: 16vmin;
+    top: 34vmin;
+}
+
+.legs .mid .left {
+    width: 31vmin;
+    height: 15vmin;
+}
+
+.legs .mid span:nth-child(1) {
+    width: 0.75vmin;
+    height: 14vmin;
+    left: 20.5vmin;
+    transform: rotate(-88deg);
+    top: -4.75vmin;
+}
+
+.legs .mid .left span:nth-child(1):before {
+    left: 0.15vmin;
+    top: 13.5vmin;
+    transform: rotate(-6deg);
+    width: 0.75vmin;
+	border-radius: 15%;
+}
+
+.legs .mid span:nth-child(2) {
+    left: 10.05vmin;
+    transform: rotate(38deg);
+    top: 0.7vmin;
+    height: 12vmin;
+}
+
+.legs .mid span:nth-child(3) {
+    left: 0.75vmin;
+    transform: rotate(164deg);
+    top: 8.75vmin;
+    border-radius: 10%;
+    width: 5.5vmin;
+	drop-shadow(-5px 0px 7px #00000080)
+}
+
+.legs .mid span:nth-child(3):after {
+    transform: rotate(-95deg);
+    top: -1.85vmin;
+}
+
+.legs .mid .right {
+    width: 25vmin;
+    height: 25vmin;
+    left: 30vmin;
+}
+
+.legs .mid .right span:nth-child(1) {
+    transform: rotate(-69deg);
+    height: 12vmin;
+    top: -0.65vmin;
+    left: 9vmin;
+}
+
+.legs .mid .right span:nth-child(1):before {
+    top: -2.25vmin;
+    width: 0.75vmin;
+    height: 2.5vmin;
+    transform: rotate(8deg);
+    left: 0.175vmin;
+	border-radius: 15%;
+}
+
+.legs .mid .right span:nth-child(2) {
+    transform: rotate(-23deg);
+    height: 13vmin;
+    top: 6.85vmin;
+    left: 17.1vmin;
+    background: linear-gradient(90deg, var(--bug-dark) 0% , var(--bug-light) 90%);
+}
+
+.legs .mid .right span:nth-child(3) {
+    top: 20.5vmin;
+    left: 17.65vmin;
+    transform: rotate(48deg);
+}
+
+
+
+
+
+/*** LEGS BOT ***/
+
+.legs .bot {
+    width: 48vmin;
+    height: 15vmin;
+    left: 34vmin;
+    top: 20vmin;
+}
+
+.legs .bot .left {
+    width: 32vmin;
+    height: 13vmin;
+    top: 3vmin;
+    left: 17vmin;
+}
+
+.legs .bot span:nth-child(1) {
+    width: 0.75vmin;
+    height: 14vmin;
+    left: 9.95vmin;
+    transform: rotate(-106deg);
+    top: -1.75vmin;
+}
+
+.legs .bot .left span:nth-child(1):before {
+    left: 0.15vmin;
+    top: -2.5vmin;
+    transform: rotate(7deg);
+    width: 0.75vmin;
+	border-radius: 15%;
+}
+
+.legs .bot span:nth-child(2) {
+    left: 20.5vmin;
+    transform: rotate(-54deg);
+    top: 1.15vmin;
+    height: 10.25vmin;
+    background: linear-gradient(90deg, var(--bug-dark) 0% , var(--bug-light) 90%);
+	left: 20.6vmin;
+    transform: rotate(-54deg);
+    top: 1.2vmin;
+    height: 10.25vmin;
+}
+
+.legs .bot span:nth-child(3) {
+    left: 24.75vmin;
+    transform: rotate(-3deg);
+    top: 8.825vmin;
+    border-radius: 10%;
+    width: 5.5vmin;
+	filter: drop-shadow(-6px 0px 7px #00000080);
+}
+
+.legs .bot span:nth-child(3):after {
+    transform: rotate(-95deg);
+    top: -1.85vmin;
+}
+
+.legs .bot .right {
+    width: 20vmin;
+    height: 12vmin;
+    top: 0vmin;
+    left: 0vmin;
+}
+
+.legs .bot .right span:nth-child(1) {
+    width: 0.75vmin;
+    height: 11.5vmin;
+    left: 11.15vmin;
+    transform: rotate(-48deg);
+    top: 0.15vmin;
+}
+
+.legs .bot .right span:nth-child(1):before {
+    display: none;
+}
+
+.legs .bot .right span:nth-child(2) {
+    left: 5.15vmin;
+    transform: rotate(49deg);
+    top: 1.15vmin;
+    height: 5.5vmin;
+    background: linear-gradient(-90deg, var(--bug-dark) 0% , var(--bug-light) 90%);
+    width: 0.6vmin;
+	border-radius: 50% 50% 80% 90%;
+}
+
+.legs .bot .right span:nth-child(3) {
+    left: 1.15vmin;
+    transform: rotate(-137deg);
+    top: 1.5vmin;
+    border-radius: 10%;
+    width: 3.5vmin;
+}
+
+
+
+/*** SHADOW ***/
+
+.stickbug.shadow {
+    filter: brightness(0) drop-shadow(0px 0px 2px black) blur(18px);
+    transform-style: preserve-3d;
+    z-index: -2;
+    opacity: 0.55;
+}
+
+.stickbug.shadow .body span, .stickbug.shadow .head {
+    background: #ffffff;
+    margin-left: 3vmin;
+    margin-top: 3vmin;
+}
+
+.stickbug.shadow .body span:last-of-type {
+	border-radius: 100%;
+}
+
+.stickbug.shadow .body span:last-of-type:before,
+.stickbug.shadow .body span:last-of-type:after {
+    opacity: 0.25;
+}
+
+.shadow .body span:first-of-type:after {
+    top: 2vmin;
+    left: -2.5vmin;
+}
+
+
+/*** shadow legs ***/
+
+.stickbug.shadow .legs .top .left:before {
+    background: #fff;
+    width: 6vmin;
+    height: 1vmin;
+    top: 12vmin;
+    transform: rotate(78deg);
+    left: 6vmin;
+}
+
+.stickbug.shadow .legs .top .left:after {
+    background: #fff;
+    width: 22vmin;
+    height: 0.5vmin;
+    top: 25vmin;
+    transform: rotate(110deg);
+    left: -2vmin;
+}
+
+.stickbug.shadow .legs .top .right:before {
+    background: #fff;
+    width: 3vmin;
+    height: 0.51vmin;
+    top: 10vmin;
+    transform: rotate(78deg);
+    left: 14vmin;
+}
+
+.stickbug.shadow .legs .top .right:after {
+    background: #fff;
+    width: 38vmin;
+    height: 0.5vmin;
+    top: 15vmin;
+    transform: rotate(-39deg);
+    left: -2vmin;
+}
+
+.stickbug.shadow .legs .mid .left:before {
+    background: #fff;
+    width: 10vmin;
+    height: 0.5vmin;
+    top: 8vmin;
+    transform: rotate(140deg);
+    left: 6vmin;
+}
+
+.stickbug.shadow .legs .mid .left:after {
+    background: #fff;
+    width: 14vmin;
+    height: 0.5vmin;
+    top: 4vmin;
+    transform: rotate(169deg);
+    left: 16vmin;
+}
+
+.stickbug.shadow .legs .mid .right:before {
+    background: #fff;
+    width: 13vmin;
+    height: 1vmin;
+    top: 8vmin;
+    transform: rotate(19deg);
+    left: 4vmin;
+}
+
+.stickbug.shadow .legs .mid .right:after {
+    background: #fff;
+    width: 9vmin;
+    height: 0.5vmin;
+    top: 14vmin;
+    transform: rotate(77deg);
+    left: 12vmin;
+}
+
+.stickbug.shadow .legs .bot .left:before {
+    background: #fff;
+    width: 10vmin;
+    height: 0.5vmin;
+    top: 8vmin;
+    transform: rotate(180deg);
+    left: 14vmin;
+}
+
+.stickbug.shadow .legs .bot .left:after {
+    background: #fff;
+    width: 14vmin;
+    height: 0.5vmin;
+    top: 6vmin;
+    transform: rotate(157deg);
+    left: 6vmin;
+}
+
+.stickbug.shadow .legs .bot .right:before {
+    background: #fff;
+    width: 13vmin;
+    height: 1vmin;
+    top: 9vmin;
+    transform: rotate(26deg);
+    left: 5vmin;
+}
+
+.stickbug.shadow .legs .bot .right:after {
+    background: #fff;
+    width: 6vmin;
+    height: 0.5vmin;
+    top: 4.5vmin;
+    transform: rotate(161deg);
+    left: 1vmin;
+}
