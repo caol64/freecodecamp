@@ -1,0 +1,1834 @@
+@import url('css2.css');
+//@import "setup";
+$blk: #000;
+$none: rgba(#fff,0);
+$white: #fff;
+$wht: $white;
+$line: #222E35;
+$line2: $blk;
+$red: #EF476F;
+$yellow: #FFD166;
+$green: #06D6A0;
+$dblue: #073B4C;
+$lblue: #118AB2;
+
+$brand: $dblue;
+$lw: .5em;
+
+//BPM Goes here:
+$bpm: 106;
+
+$bpm: (60 / $bpm) * 4;
+$delay: $bpm / 4;
+$delay: 0;
+$bpms: #{bpm}s;
+$word-count: 100;
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 1vw;
+}
+
+body {
+    text-align: center;
+    margin: 0;
+    color: $green;
+    padding: 2rem;
+    font-family: "Rubik Mono One", monospace;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 0;
+    font-size: 5.5rem;
+    background: darken($line,20);
+}
+
+@media (orientation: portrait) {
+    html {
+        font-size: 3vw;
+    }
+
+    body {
+        font-size: 3rem;
+    }
+}
+
+light, stars, stars2, playerlight, badge, playerwrap, bubbles, confetti, bubblewrap, killlights {
+    &, &:before, &:after, *, *:before, *:after {
+        box-sizing: border-box;
+        position: absolute;
+        content: '';
+        left: 0;
+        top: 0;
+        transform-style: preserve-3d;
+    }
+}
+
+main, body, article, html, killlights {
+    height: 100%;
+}
+
+killlights {
+    right: 0;
+    margin: auto;
+
+    &:nth-of-type(1) {
+        width: 7rem;
+    }
+}
+
+main {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    perspective: 80rem;
+    background: radial-gradient($none, $line), $dblue;
+    margin: auto;
+    padding: 1rem;
+}
+
+content {
+    height: 70%;
+    position: relative;
+    display: block;
+    z-index: 99;
+}
+
+article {
+    & > span {
+        transform: scale(0);
+        display: block;
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        height: fit-content;
+        text-shadow: 0 .1em 0 $line, -.5rem 0 0 rgba($green,.02), .5rem 0 0 rgba($red,.1);
+        opacity: .9;
+    }
+}
+
+@for $i from 0 through 100 {
+    article > span:nth-of-type(#{$i}) {
+        color: adjust-hue( $green, 0% - ($i * 45));
+    }
+}
+
+@keyframes in {
+    5%, 95% {
+        transform: scale(1);
+    }
+}
+
+@keyframes lights {
+    50% {
+        filter: brightness(1.2);
+    }
+}
+
+@keyframes dance {
+    33% {
+        transform: rotate(.5deg);
+    }
+
+    66% {
+        transform: rotate(-.5deg);
+    }
+}
+
+div {
+    position: absolute;
+    animation: bg (#{$bpm / 4}s) ease-in-out infinite;
+    background: radial-gradient($lblue, $none, $none);
+    border-radius: 50%;
+    width: 100vmax;
+    aspect-ratio: 1/1;
+    inset: -50vmax;
+    margin: auto;
+    opacity: 0;
+}
+
+@keyframes bg {
+    50% {
+        opacity: .2;
+    }
+}
+
+script {
+    display: none;
+}
+
+small {
+    font-size: .54em;
+    margin-top: 2.5em;
+    filter: hue-rotate(-70deg);
+}
+
+body {
+    @for $i from 0 through 100 {
+        article > span:nth-of-type(#{$i}) {
+            animation: in (#{$bpm}s) (#{($i * $bpm) + $delay}s) ease-in-out;
+        }
+    }
+
+    main {
+        animation: light (#{$bpm}s) ease-in-out infinite;
+    }
+
+    article, h1 {
+        animation: dance (#{$bpm / 4}s) ease-in-out infinite;
+    }
+}
+
+.bigger-1 {
+    font-size: 1.2em;
+}
+
+.bigger-2 {
+    font-size: 1.4em;
+}
+
+.bigger-3 {
+    font-size: 1.6em;
+}
+
+.bigger-4 {
+    font-size: 2.6em;
+}
+
+#stop-radio, play {
+    left: .5rem;
+    bottom: 1rem;
+}
+
+#play-radio, #stop-radio, play {
+    position: absolute;
+    width: 5rem;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: scale .2s cubic-bezier(1,-0.28, 0.02, 0.95);
+  z-index:999;
+}
+
+#play-radio, #stop-radio {
+    appearance: none;
+    color: $blk;
+    font-size: 2.5rem;
+    line-height: 1;
+    cursor: pointer;
+    background: $white;
+    border-radius: 50%;
+}
+
+play {
+    right: .5rem;
+    bottom: 8rem;
+    margin: auto;
+}
+
+#play-radio {
+    top: 0;
+    left: 0;
+    filter: drop-shadow( -.25rem 0 0 rgba($green,.02)) drop-shadow( .25rem 0 0 rgba($red,.1)) drop-shadow( 0 .25rem 0 rgba($blk,.5));
+    scale: 1.5;
+
+    &:before {
+        content: '▶';
+        display: block;
+        transform: translate3d(.2rem,0,0);
+    }
+
+    animation: throb #{$bpm}s cubic-bezier(1,-0.28, 0.02, 0.95) infinite;
+
+    &:hover {
+        background: $green;
+        animation-play-state: paused;
+        scale: 1.7;
+    }
+}
+
+#stop-radio {
+    scale: 0;
+
+    &:before {
+        content: '';
+        width: .6rem;
+        height: 2rem;
+        background: $blk;
+        box-shadow: 1.2rem 0 0 $blk;
+        transform: translate3d(-.6rem,0,0);
+    }
+
+    &:hover {
+        background: $green;
+    }
+}
+
+@keyframes throb {
+    50% {
+        scale: 1.9;
+        filter: drop-shadow( -.5rem 0 0 rgba($green,.02)) drop-shadow( .5rem 0 0 rgba($red,.1)) drop-shadow( 0 .5rem 0 rgba($blk,.25));
+    }
+}
+
+section {
+    z-index: 1;
+    font-size: 1vmin;
+    padding: 10% 0;
+    transform: rotate(-2deg);
+    filter: drop-shadow( -1em 0 0 rgba($green,.1)) drop-shadow( 1em 0 0 rgba($red,.2)) drop-shadow( 0 1em 0 rgba($blk,.5));
+    backdrop-filter: blur(.3em);
+
+    &, h1 {
+        top: 0;
+        left: -10%;
+        right: -10%;
+        bottom: 10%;
+        margin: auto;
+        position: absolute;
+        height: fit-content;
+        width: 110%;
+    }
+
+    span:nth-of-type(2), span:nth-of-type(2):after, span:nth-of-type(2):before, h1:after, h1:before {
+        position: absolute;
+        left: 0;
+    }
+
+    span:nth-of-type(2) {
+        right: 0;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        transform: translate3d(-55vmin,30vmin,0) rotate(-5deg);
+        width: 0;
+
+        @media (orientation: landscape) {
+            &:before, &:after {
+                content: '';
+                top: 0;
+            }
+
+            &:before {
+                border: 2vmin solid $red;
+                border-right-color: $none;
+                border-bottom-color: $none;
+                width: 24vmin;
+                height: 24vmin;
+                border-radius: 50%;
+                transform: rotate(-40deg);
+            }
+
+            &:after {
+                content: '▶';
+                color: $red;
+                font-size: 16vmin;
+                transform: translate3d(7vmin,18vmin,0) rotate(17deg);
+            }
+        }
+    }
+
+    span:nth-of-type(1) {
+        max-width: 10em;
+        display: block;
+        margin: auto;
+        padding: .2em 0;
+    }
+
+    h1 {
+        font-weight: 400;
+        font-size: 15em;
+        padding: 0 1em;
+        margin: auto;
+        background: rgba($blk,.5);
+        text-shadow: -.1em 0 0 rgba($green,.1), .1em 0 0 rgba($red,.2), 0 .1em 0 rgba($blk,.5);
+
+        &:before, &:after {
+            content: '';
+            background: rgba($blk,.5);
+            height: .5em;
+            width: 40%;
+            transform: skewX(-45deg);
+        }
+
+        &:before {
+            bottom: 100%;
+        }
+
+        &:after {
+            top: 100%;
+            left: auto;
+            right: 0;
+        }
+    }
+}
+
+//@import "dance";
+
+playerlight, playerwrap {
+    font-size: .5rem;
+    top: 0;
+    right: 0;
+    margin: auto;
+    height: 10rem;
+    width: 5em;
+    display: block;
+}
+
+main > playerlight, main > playerwrap {
+    top: 60% !important;
+}
+
+player1, player2, player3, player4, player5 {
+    & > u {
+        &:before {
+            width: 6rem;
+            height: 1rem;
+            background: $line;
+            transform: translate3d(-2.5rem,12rem,0);
+            border-radius: 50%;
+            animation: shadow (#{$bpm / 4}s) (#{$bpm * 7}s) ease-in-out forwards;
+            opacity: .1;
+            filter: blur(.1rem);
+        }
+
+        @keyframes shadow {
+            100% {
+                opacity: .5;
+            }
+        }
+
+        & > u:nth-of-type(2) {
+            height: 10em;
+            //head
+
+            & > u:nth-of-type(4) {
+                transform: translate3d(-2em,1em,0);
+                width: 5em;
+                height: 5em;
+                border-radius: 50%;
+                background: $yellow;
+                border: $lw solid $line2;
+
+                & > u {
+                    animation: blink 5s infinite;
+
+                    &:before {
+                        //eyes
+                        width: $lw;
+                        height: $lw;
+                        background: $line2;
+                        border-radius: 50%;
+                        transform: translate3d(.5em,1em,0);
+                        box-shadow: 1.2em 0 0 $line2;
+                        animation: read #{$bpm * 4}s cubic-bezier(1,-0.28, 0.02, 0.95) infinite;
+                    }
+                }
+
+                @keyframes blink {
+                    98% {
+                        transform: scaleY(1);
+                    }
+
+                    99%,100% {
+                        transform: scaleY(0);
+                    }
+                }
+
+                @keyframes read {
+                    33% {
+                        transform: translate3d(2em,1em,0);
+                    }
+
+                    66% {
+                        transform: translate3d(1em,1.5em,0);
+                    }
+                }
+            }
+            //body
+
+            & > u:nth-of-type(3) {
+                width: 10em;
+                height: 10em;
+                border-radius: 50%;
+                background: $red;
+                border: $lw solid $line2;
+                transform: translate3d(-3.5em,5em,0);
+            }
+            // left arm
+            & > u:nth-of-type(2) {
+                border: $lw solid $none;
+                border-left-color: $line2;
+                border-top-color: $line2;
+                width: 8em;
+                height: 7em;
+                transform: translate3d(-1em, -1em, 0) rotate(-110deg) scaleX(-1);
+                border-radius: 100% 0 0 0 / 90% 0 0 0;
+                transform-origin: 0 100%;
+            }
+            //right arm
+
+            & > u:nth-of-type(1) {
+                border: $lw solid $none;
+                border-top-color: $line2;
+                border-right-color: $line2;
+                width: 8em;
+                height: 10em;
+                transform: translate3d(1em,6em,0) rotate(-10deg);
+                border-radius: 0% 90% 0% 90% / 90% 90% 0% 0%;
+                transform-origin: 0 0;
+            }
+        }
+
+        & > u:nth-of-type(1) {
+            height: 10em;
+            transform-origin: 100% 100%;
+            transform: translate3d(0,14em, 0) skewX(0deg) rotate(1deg);
+            // left leg
+
+            & > u:nth-of-type(2) {
+                width: 8em;
+                height: 10em;
+                border: $lw solid $none;
+                border-left-color: $line2;
+                border-top-color: $line2;
+                transform: translate3d(-6em,0, 0) rotate(-11deg);
+                border-radius: 100% 0% 0% 100%/100% 100% 0% 0%;
+            }
+            // right leg
+
+            & > u:nth-of-type(1) {
+                width: 8em;
+                height: 10em;
+                border: $lw solid $none;
+                border-top-color: $line2;
+                border-right-color: $line2;
+                transform: translate3d(1em,0, 0) rotate(12deg);
+                border-radius: 0% 100% 0% 100% / 100% 100% 0% 0%;
+            }
+        }
+    }
+}
+
+player1 {
+    & > u {
+        & > u:nth-of-type(2) {
+            animation: standby (#{$bpm / 2}s) (#{$bpm * 3}s) infinite ease-in-out;
+
+            & > u:nth-of-type(2) {
+                animation: armup (#{$bpm / 8}s) (#{$bpm * 7.1}s) linear forwards;
+            }
+
+            @keyframes armup {
+                100% {
+                    transform: translate3d(-2em, 0em, 0) rotate(-20deg);
+                    border-radius: 0% 100% 0% 100% / 100% 100% 0% 0%;
+                }
+            }
+        }
+
+        & > u:nth-of-type(1) {
+            animation: standby2 (#{$bpm / 2}s) (#{$bpm * 3}s) infinite ease-in-out;
+        }
+    }
+}
+
+@keyframes standby {
+    25% {
+        transform: skewX(1deg) rotate(-3deg) translate3d(0,.2rem,0);
+    }
+
+    50% {
+        transform: skewX(0deg) rotate(0deg) translate3d(0,0rem,0);
+    }
+
+    75% {
+        transform: skewX(-2deg) rotate(3deg) translate3d(0,.2rem,0);
+    }
+}
+
+@keyframes standby2 {
+    25% {
+        transform: translate3d(0,14em, 0) skewX(-6deg) rotate(1deg);
+    }
+
+    75% {
+        transform: translate3d(0,14em, 0) skewX(6deg) rotate(-1deg);
+    }
+}
+
+/*animation: standby3 (#{$bpm / 2}s) (#{$bpm * 12}s) infinite;*/
+
+player2 {
+    & > u {
+        & > u:nth-of-type(2) {
+            //head
+
+            u:nth-of-type(4) {
+                & > u {
+                    &:before {
+                        //eyes
+
+                        transform: translate3d(.5em,1.5em,0);
+                        animation: danceeyes #{$bpm / 2}s (#{$bpm * 12}s) infinite;
+
+                        @keyframes danceeyes {
+                            50% {
+                                transform: translate3d(2em,1.5em,0);
+                            }
+                        }
+                    }
+                }
+            }
+            // left arm
+            u:nth-of-type(2) {
+                animation: danceleftarm #{$bpm / 2}s (#{$bpm * 12}s) infinite;
+            }
+
+            @keyframes danceleftarm {
+                0% {
+                    transform: translate3d(-1em, 0, 0) rotate(82deg) scale(-1);
+                }
+
+                50% {
+                    transform: translate3d(-1em, 0, 0) rotate(119deg) scale(-1);
+                }
+
+                100% {
+                    transform: translate3d(-1em, 0, 0) rotate(82deg) scale(-1);
+                }
+            }
+            //right arm
+
+            u:nth-of-type(1) {
+                height: 8em;
+                animation: dancerightarm #{$bpm / 2}s (#{$bpm * 12}s) infinite;
+            }
+
+            @keyframes dancerightarm {
+                0% {
+                    transform: translate3d(4em, 7em, 0) rotate(-38deg) scaleY(-1)
+                }
+
+                50% {
+                    transform: translate3d(4em, 7em, 0) rotate(6deg) scaleY(-1)
+                }
+
+                100% {
+                    transform: translate3d(4em, 7em, 0) rotate(-38deg) scaleY(-1)
+                }
+            }
+        }
+    }
+}
+
+player2 {
+    & > u {
+        & > u:nth-of-type(2) {
+            animation: standby3 #{$bpm / 2}s (#{$bpm * 12}s) infinite ease-in-out;
+        }
+
+        & > u:nth-of-type(1) {
+            animation: standby4 #{$bpm / 2}s (#{$bpm * 12}s) infinite ease-in-out;
+        }
+    }
+}
+
+@keyframes standby3 {
+    25% {
+        transform: skewX(1deg) rotate(-3deg) translate3d(0,.4rem,0);
+    }
+
+    50% {
+        transform: skewX(0deg) rotate(0deg) translate3d(0,0rem,0);
+    }
+
+    75% {
+        transform: skewX(-2deg) rotate(3deg) translate3d(0,.4rem,0);
+    }
+}
+
+@keyframes standby4 {
+    25% {
+        transform: translate3d(0,14em, 0) skewX(-6deg) rotate(1deg);
+    }
+
+    75% {
+        transform: translate3d(0,14em, 0) skewX(6deg) rotate(-1deg);
+    }
+}
+
+player3 {
+    & > u {
+        & > u:nth-of-type(2) {
+            animation: standby3 #{$bpm / 2}s infinite ease-in-out;
+
+            & > u:nth-of-type(4) {
+                transform: translate3d(-1em,1em,0);
+                animation: dance2head #{$bpm / 2 }s cubic-bezier(1,-0.28, 0.02, 0.95) infinite;
+
+                @keyframes dance2head {
+                    50% {
+                        transform: translate3d(-1em,1.5em,0);
+                    }
+                }
+
+                & > u {
+                    &:before {
+                        //eyes
+
+                        transform: translate3d(.5em,1.5em,0);
+                        animation: dance2eyes #{$bpm / 2 }s cubic-bezier(1,-0.28, 0.02, 0.95) infinite;
+                    }
+                }
+
+                @keyframes dance2eyes {
+                    50% {
+                        transform: translate3d(1em,2em,0);
+                    }
+                }
+            }
+            // left arm
+            & > u:nth-of-type(2) {
+                transform: translate3d(-1em, -1em, 0) rotate(18deg) scale(-1);
+                animation: dance2leftarm #{$bpm / 2}s infinite;
+            }
+
+            @keyframes dance2leftarm {
+                50% {
+                    transform: translate3d(-1em, -1em, 0) rotate(-38deg) scale(-1);
+                }
+            }
+            //right arm
+
+            & > u:nth-of-type(1) {
+                height: 7em;
+                transform: translate3d(4.5em, 6em, 0) rotate(39deg);
+                animation: dance2rightarm #{$bpm / 2}s infinite;
+                z-index: 1;
+            }
+
+            @keyframes dance2rightarm {
+                50% {
+                    transform: translate3d(4.5em, 6em, 0) rotate(90deg);
+                }
+            }
+        }
+
+        & > u:nth-of-type(1) {
+            animation: standby4 #{$bpm / 2}s infinite ease-in-out;
+        }
+    }
+}
+
+playerwrap:nth-of-type(2) {
+    animation: flip #{$bpm * 8.5}s (#{$bpm * 20}s) infinite;
+}
+
+@keyframes flip {
+    0%,48% {
+        transform: scaleX(1)
+    }
+
+    50%, 98% {
+        transform: translate3d(-1rem,0,0) scaleX(-1)
+    }
+}
+
+player4 {
+    & > u {
+        & > u:nth-of-type(2) {
+            animation: bodyfloss (#{$bpm / 2}s) ease-in-out infinite;
+            transform-origin: 0 0;
+            transform: rotate(-10deg);
+
+            @keyframes bodyfloss {
+                25%,75% {
+                    transform: translate3d(0,1em,0);
+                }
+
+                50% {
+                    transform: rotate(10deg);
+                }
+            }
+            //head
+
+            & > u:nth-of-type(4) {
+                & > u {
+                    &:before {
+                        //eyes
+
+                        transform: translate3d(.5em,2em,0);
+                        animation: eyesfloss #{$bpm * 2}s cubic-bezier(1,-0.28, 0.02, 0.95) infinite;
+                    }
+                }
+
+                @keyframes eyesfloss {
+                    33% {
+                        transform: translate3d(2em,2em,0);
+                    }
+
+                    66% {
+                        transform: translate3d(1em,1.5em,0);
+                    }
+                }
+            }
+            // left arm
+            & > u:nth-of-type(2) {
+                transform: translate3d(-1em, -1em, 0) rotate(-140deg) scaleX(-1);
+                animation: leftarmfloss (#{$bpm}s) ease-in-out infinite;
+            }
+
+            @keyframes leftarmfloss {
+                25% {
+                    transform: translate3d(-1em, -1em, 0) rotate(-100deg) scaleX(1);
+                }
+
+                50% {
+                    transform: translate3d(-1.5em, -1em, 0) rotate(-160deg) scaleX(-1);
+                    z-index: 1;
+                }
+
+                75% {
+                    transform: translate3d(-1em, -1em, 0) rotate(-100deg) scaleX(1);
+                }
+            }
+            //right arm
+
+            & > u:nth-of-type(1) {
+                height: 7em;
+                transform: translate3d(4em,5.9em,0) rotate(40deg) scaleY(-1);
+                animation: rightarmfloss (#{$bpm }s) ease-in-out infinite;
+                z-index: 1;
+            }
+
+            @keyframes rightarmfloss {
+                25% {
+                    transform: translate3d(4em,5.7em,0) rotate(80deg);
+                    z-index: 1;
+                }
+
+                50% {
+                    transform: translate3d(4em,5.9em,0) rotate(40deg) scaleY(-1);
+                    z-index: 0;
+                }
+
+                75% {
+                    transform: translate3d(4em,5.7em,0) rotate(60deg);
+                    z-index: 0;
+                }
+            }
+        }
+
+        & > u:nth-of-type(1) {
+            transform: translate3d(0,14em, 0) skewX(-10deg) rotate(1deg);
+            animation: flosslegs #{$bpm / 2}s infinite ease-in-out;
+
+            @keyframes flosslegs {
+                50% {
+                    transform: translate3d(0,14em, 0) skewX(10deg) rotate(-1deg);
+                }
+            }
+        }
+    }
+}
+
+$leave: 64;
+
+player5 {
+    animation: leave (#{$bpm * 3}s) (#{$bpm * $leave}s) ease-in-out forwards;
+}
+
+@keyframes leave {
+    5% {
+        transform: translate3d(-4rem, 0, 0) scale(1.02);
+    }
+
+    10% {
+        transform: translate3d(-8rem, 0, 0) scale(1.04);
+    }
+
+    15% {
+        transform: translate3d(-12rem, 0, 0) scale(1.06);
+    }
+
+    20% {
+        transform: translate3d(-16rem, 0, 0) scale(1.08);
+    }
+
+    25% {
+        transform: translate3d(-20rem, 0, 0) scale(1.10);
+    }
+
+    30% {
+        transform: translate3d(-24rem, 0, 0) scale(1.12);
+    }
+
+    35% {
+        transform: translate3d(-28rem, 0, 0) scale(1.14);
+    }
+
+    40% {
+        transform: translate3d(-32rem, 0, 0) scale(1.16);
+    }
+
+    45% {
+        transform: translate3d(-36rem, 0, 0) scale(1.18);
+    }
+
+    50% {
+        transform: translate3d(-40rem, 0, 0) scale(1.20);
+    }
+
+    55% {
+        transform: translate3d(-44rem, 0, 0) scale(1.22);
+    }
+
+    60% {
+        transform: translate3d(-48rem, 0, 0) scale(1.24);
+    }
+
+    65% {
+        transform: translate3d(-52rem, 0, 0) scale(1.26);
+    }
+
+    70% {
+        transform: translate3d(-56rem, 0, 0) scale(1.28);
+    }
+
+    75% {
+        transform: translate3d(-60rem, 0, 0) scale(1.30);
+    }
+
+    80% {
+        transform: translate3d(-64rem, 0, 0) scale(1.32);
+    }
+
+    85% {
+        transform: translate3d(-68rem, 0, 0) scale(1.34);
+    }
+
+    90% {
+        transform: translate3d(-72rem, 0, 0) scale(1.36);
+    }
+
+    95% {
+        transform: translate3d(-76rem, 0, 0) scale(1.38);
+    }
+
+    100% {
+        transform: translate3d(-80rem, 0, 0) scale(1.40);
+    }
+}
+
+player5 {
+    & > u {
+        &:before {
+            opacity: .3;
+        }
+
+        & > u:nth-of-type(2) {
+            animation: walkbod (#{$bpm / 2}s) (#{$bpm * $leave}s) ease-in-out infinite;
+            transform-origin: 100% 100%;
+            transform: translate3d(0em, 0, 0) rotate(5deg);
+
+            @keyframes walkbod {
+                50% {
+                    transform: translate3d(0em, 2em, 0) rotate(-7deg);
+                }
+            }
+            //head
+
+            & > u:nth-of-type(4) {
+                animation: walkhead (#{$bpm / 2}s) (#{$bpm * $leave}s) ease-in-out infinite;
+
+                @keyframes walkhead {
+                    0%,100% {
+                        transform: translate3d(-2em,1.5em,0);
+                    }
+
+                    50% {
+                        transform: translate3d(-2em,2em,0);
+                    }
+                }
+            }
+            // left arm
+            & > u:nth-of-type(2) {
+                transform: translate3d(-1em, -1em, 0) rotate(-125deg) scaleX(-1);
+                animation: leftarmwalk (#{$bpm / 2}s) (#{$bpm * $leave - ($bpm / 4)}s ) ease-in-out infinite;
+            }
+
+            @keyframes leftarmwalk {
+                25% {
+                    transform: translate3d(-1em, -1em, 0) rotate(-110deg) scaleX(-1);
+                }
+            }
+            //right arm
+
+            & > u:nth-of-type(1) {
+                height: 7em;
+                transform: translate3d(3em, 5.5em, 0) rotate(25deg);
+                animation: rightarmwalk (#{$bpm / 2}s) (#{$bpm * $leave}s) ease-in-out infinite;
+                /*  z-index: 1;*/
+            }
+
+            @keyframes rightarmwalk {
+                75% {
+                    transform: translate3d(3em, 5.5em, 0) rotate(10deg);
+                }
+            }
+        }
+
+        & > u:nth-of-type(1) {
+            // left leg
+            & > u:nth-of-type(2) {
+                transform: translate3d(-6em,.5rem, 0) rotate(-11deg);
+                animation: walkleftleg (#{$bpm / 2}s) (#{$bpm * $leave}s) ease-in-out infinite;
+                transform-origin: 0 0;
+            }
+
+            @keyframes walkleftleg {
+                0%,100% {
+                    transform: translate3d(-7em,-1em, 0) rotate(9deg) skewX(20deg);
+                    border-radius: 80% 0% 0% 80% / 80% 80% 0% 0%;
+                }
+
+                25% {
+                    transform: translate3d(-7em, 2em, 0) rotate(-11deg);
+                    border-radius: 100% 0% 0% 100% / 100% 100% 0% 0%;
+                }
+
+                50% {
+                    transform: translate3d(-6em, 3em, 0) rotate(-30deg);
+                    border-radius: 100% 0% 0% 100% / 100% 100% 0% 0%;
+                }
+            }
+            // right leg
+
+            & > u:nth-of-type(1) {
+                transform: translate3d(1em,0rem, 0) rotate(12deg);
+                animation: walkrightleg (#{$bpm / 2}s) (#{$bpm * $leave}s) ease-in-out infinite;
+                transform-origin: 0 0;
+            }
+
+            @keyframes walkrightleg {
+                0%, 100% {
+                    transform: translate3d(3em,0, 0) rotate(10deg);
+                    border-radius: 0% 100% 0% 100% / 100% 100% 0% 0%;
+                }
+
+                50% {
+                    transform: translate3d(3em,0, 0) rotate(12deg) skewX(-20deg);
+                    border-radius: 0% 80% 0% 100% / 100% 100% 0% 0%;
+                }
+
+                75% {
+                    transform: translate3d(2em,-1em, 0) rotate(22deg);
+                    border-radius: 0% 100% 0% 100% / 100% 100% 0% 0%;
+                }
+            }
+        }
+    }
+}
+
+//@import "lights";
+light {
+    inset: -150vh 0 auto 0;
+    margin: auto;
+    height: 300vh;
+    z-index: -1;
+    width: 7rem;
+    transform: scaleX(0);
+    filter: blur(.5rem);
+    background: linear-gradient( $none,rgba($yellow,.25));
+
+    &:after {
+        background: linear-gradient( $none,$red);
+        height: 100%;
+        width: 100%;
+        transform: rotate(-.5deg);
+        transform-origin: 50% 20%;
+        opacity: .5;
+    }
+
+    &:before {
+        background: linear-gradient( $none,$green);
+        height: 100%;
+        width: 100%;
+        transform: rotate(.5deg);
+        transform-origin: 50% 20%;
+        opacity: .5;
+    }
+}
+
+stars {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 1rem;
+    height: 1rem;
+
+    u {
+        width: 50rem;
+        height: 1rem;
+        transform: translate3d(1rem,0,0);
+        transform-origin: 0 0;
+
+        &:before {
+            background: $red;
+            width: 50rem;
+            height: 1rem;
+            transform: rotateY(90deg) translate3d(1000rem,0,0);
+            opacity: .2;
+        }
+    }
+
+    @for $i from 1 through 9 {
+        u:nth-of-type(#{$i}) {
+            transform: translate3d(1rem,0,0) rotate((#{($i * 40)}deg));
+
+            &:before {
+                animation: stars (#{$bpm}s) (-#{($i * $bpm / 1.5)}s) linear infinite;
+                background: adjust-hue( $red, 0% - ($i * 50));
+            }
+        }
+    }
+}
+
+@keyframes stars {
+    100% {
+        transform: rotateY(90deg) translate3d(-100rem,0,0);
+    }
+}
+
+stars2 {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 1rem;
+    height: 1rem;
+    animation: stars2rotate (#{$bpm * 4}s) (#{$bpm * 12}s) linear infinite;
+
+    u {
+        width: 50rem;
+        height: 1rem;
+        transform: translate3d(1rem,0,0);
+        transform-origin: 0 0;
+
+        &:before {
+            background: $red;
+            width: 100rem;
+            height: 2rem;
+            transform: rotateY(90deg) translate3d(500rem,0,0);
+            opacity: .1;
+        }
+    }
+
+    @for $i from 1 through 9 {
+        u:nth-of-type(#{$i}) {
+            transform: translate3d(1rem,0,0) rotate((#{($i * 40)}deg));
+
+            &:before {
+                animation: stars (#{$bpm}s) (-#{($i * $bpm / 1.5)}s) linear infinite;
+                background: adjust-hue( $red, 0% - ($i * 50));
+            }
+        }
+    }
+}
+
+@keyframes stars2rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+playerwrap playerwrap {
+    filter: drop-shadow( -.5rem 0 0 rgba($green,.05)) drop-shadow( .5rem 0 0 rgba($red,.1));
+    animation: shadowrotate (#{$bpm}s) (#{$bpm * 12}s) linear infinite;
+}
+
+@keyframes shadowrotate {
+    33% {
+        filter: drop-shadow( -2rem -.5rem 0 rgba($green,.05)) drop-shadow( 2rem .5rem 0 rgba($red,.1));
+    }
+
+    66% {
+        filter: drop-shadow( 2rem .5rem 0 rgba($green,.05)) drop-shadow( -2rem -.5rem 0 rgba($red,.1));
+    }
+}
+
+//confetti
+
+@function texture ($a) {
+    $value: '#{random(30) - 15}rem #{random(30) - 15}rem 0 currentColor';
+
+    @for $i from 2 through $a {
+        $value: '#{$value} , #{random(30) - 15}rem #{random(30) - 15}rem 0 currentColor';
+    }
+
+    @return unquote($value);
+}
+
+$confetti: texture(4);
+$confetti2: texture(5);
+$confetti3: texture(6);
+$bubbles: texture(10);
+
+bubblewrap, bubbles, bubbles u {
+    inset: 0;
+    margin: auto;
+}
+
+bubbles, bubbles u {
+    box-shadow: $bubbles;
+    width: 2rem;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    scale: 1.5;
+    filter: drop-shadow( -1rem -.5rem 0 rgba($green,.9)) drop-shadow( 1rem .7rem 0 rgba($red,.9));
+    animation: rotate (#{$bpm * 4}s) linear infinite;
+}
+
+bubbles {
+    opacity: .05;
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(-360deg);
+        opacity: 0;
+    }
+
+    50% {
+        scale: 3;
+    }
+}
+
+confetti {
+    transform: translate3d(0, -10%,0);
+    width: 70rem;
+    height: 60%;
+    -webkit-mask-image: linear-gradient(#fff,#fff, $none);
+    inset: -100%;
+    margin: auto;
+    filter: drop-shadow( -.5rem -.5rem 0 rgba($green,.1)) drop-shadow( .5rem .5rem 0 rgba($red,.2));
+    z-index: -1;
+
+    & > u > u {
+        animation: sway (#{$bpm}s) infinite ease-in-out;
+        transform: translate3d(0, 20rem,0) scale(0) rotate(-5deg);
+
+        &, &:before, &:after {
+            content: '';
+            width: 1rem;
+            height: 1rem;
+            color: $red;
+            background: currentColor;
+            box-shadow: $confetti;
+        }
+
+        &:before {
+            color: $yellow;
+            transform: translate3d(4rem, -3rem,0) rotate(-15deg);
+            box-shadow: $confetti2;
+        }
+
+        &:after {
+            color: $green;
+            transform: translate3d(1.5rem, -1rem,0) rotate(20deg);
+            box-shadow: $confetti3;
+        }
+    }
+
+    & > u {
+        transform: translate3d(40rem,10rem,0);
+    }
+
+    & > u:nth-of-type(2) {
+        transform: translate3d(20rem,10rem,0);
+
+        & > u {
+            animation: sway (#{$bpm}s) (#{$bpm / 4}s) infinite linear;
+            transform: translate3d(0, 10rem,0) scale(0);
+        }
+    }
+
+    & > u:nth-of-type(3) {
+        transform: translate3d(50rem,10rem,0);
+
+        & > u {
+            animation: sway (#{$bpm}s) (#{($bpm /4) * 2 }s) infinite linear;
+            transform: translate3d(0, 10rem,0) scale(0);
+        }
+    }
+
+    & > u:nth-of-type(4) {
+        transform: translate3d(20rem,10rem,0);
+
+        & > u {
+            animation: sway (#{$bpm}s) (#{($bpm /4) * 3 }s) infinite linear;
+            transform: translate3d(0, 0,0) scale(0);
+        }
+    }
+}
+
+@keyframes sway {
+    10% {
+        transform: translate3d(.8rem, 5rem,0) scale(1);
+        opacity: 1;
+    }
+
+    25% {
+        transform: translate3d(-.9rem, 15rem,0) scale(1) scaleX(.9);
+    }
+
+    45% {
+        transform: translate3d(.7rem, 28rem,0) scale(1);
+    }
+
+    65% {
+        transform: translate3d(-.9rem, 35rem,0) scale(1) scaleX(1.1);
+        opacity: 1;
+    }
+
+    85% {
+        transform: translate3d(.6rem, 42rem,0) scale(1) scaleX(.9);
+        opacity: 1;
+    }
+
+    99% {
+        transform: translate3d(0, 50rem,0) scale(1) scaleX(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate3d(0, 50rem,0) scale(1);
+        opacity: 0;
+    }
+}
+
+//@import "timings";
+// come in
+
+player1 {
+    transform: translate3d(0,40rem,0);
+    animation: up (#{$bpm * 4 }s) (#{$bpm * 1.5}s) ease-in-out forwards;
+}
+
+@keyframes up {
+    10% {
+        transform: translate3d(0,-2rem,0) scale(5);
+    }
+
+    90% {
+        transform: translate3d(0,-2rem,0) scale(5);
+    }
+
+    100% {
+        transform: translate3d(0,0rem,0);
+    }
+}
+
+//light on
+
+light {
+    animation: spot (#{$bpm / 4}s) (#{$bpm * 7}s) ease-in-out forwards;
+
+    &:before {
+        animation: flash (#{$bpm}s) (#{$bpm * 12}s) ease-in-out infinite;
+    }
+
+    &:after {
+        animation: flash (#{$bpm}s) (#{$bpm * 12}s) ease-in-out infinite reverse;
+    }
+}
+
+@keyframes flash {
+    12.5% {
+        transform: rotate(1deg);
+    }
+
+    25% {
+        transform: rotate(-1deg);
+    }
+
+    37.5% {
+        transform: rotate(-2deg);
+    }
+
+    50% {
+        transform: rotate(0deg);
+    }
+
+    62.5% {
+        transform: rotate(2deg);
+    }
+
+    75% {
+        transform: rotate(1deg);
+    }
+
+    87.5% {
+        transform: rotate(-1deg);
+    }
+}
+
+@keyframes spot {
+    50% {
+        opacity: .5;
+        filter: blur(.5rem) brightness(2);
+    }
+
+    100% {
+        opacity: .2;
+        transform: rotateX(50deg) scaleX(1);
+        filter: blur(.1rem) brightness(2);
+    }
+}
+
+// crash
+
+body {
+    animation: crash (#{$bpm * 4 }s) (#{$bpm * 12}s) linear infinite;
+}
+
+@keyframes crash {
+    0% {
+        filter: blur(.1rem) brightness(4);
+    }
+
+    5% {
+        filter: blur(0);
+    }
+}
+
+//light player
+
+main > playerlight {
+    filter: brightness(3);
+    animation: unlight (#{$bpm / 4}s) (#{$bpm * 5}s) linear forwards;
+
+    playerlight {
+        animation: litup (#{$bpm / 4}s) (#{$bpm * 7.1}s) linear forwards;
+        filter: brightness(.3);
+    }
+}
+
+playerwrap {
+    animation: redblue (#{$bpm * 2}s) (#{$bpm * 12}s) linear infinite;
+}
+
+@keyframes redblue {
+    33% {
+        filter: hue-rotate(30deg);
+    }
+
+    66% {
+        filter: hue-rotate(-30deg);
+    }
+}
+
+@keyframes unlight {
+    100% {
+        filter: brightness(1);
+    }
+}
+
+@keyframes litup {
+    50% {
+        filter: brightness(2);
+    }
+
+    100% {
+        filter: brightness(1);
+    }
+}
+
+@keyframes killplayer {
+    100% {
+        display: none;
+        scale: 0;
+    }
+}
+
+@keyframes getreadyplayer {
+    100% {
+        visibility: visible;
+    }
+}
+
+player1 > u {
+    animation: killplayer 0s (#{$bpm * 11}s) linear forwards;
+}
+
+player2 > u {
+    animation: getreadyplayer 0s (#{$bpm * 11}s) linear forwards;
+    visibility: hidden;
+}
+
+player2:nth-of-type(1) {
+    animation: killplayer 0s (#{$bpm * 20}s) linear forwards;
+}
+
+player3 > u {
+    animation: getreadyplayer 0s (#{$bpm * 20}s) linear forwards;
+    visibility: hidden;
+}
+
+player3 {
+    animation: killplayer 0s (#{$bpm * 28}s) linear forwards;
+}
+
+player2:nth-of-type(2) > u {
+    animation: getreadyplayer 0s (#{$bpm * 28}s) linear forwards;
+}
+
+bubblewrap {
+    animation: getreadyplayer 0s (#{$bpm * 28}s) linear forwards;
+    visibility: hidden;
+}
+
+player2:nth-of-type(2) {
+    animation: killplayer 0s (#{$bpm * 36}s) linear forwards;
+}
+
+player4 > u {
+    animation: getreadyplayer 0s (#{$bpm * 36}s) linear forwards;
+    visibility: hidden;
+}
+
+player4 {
+    animation: killplayer 0s (#{$bpm * 44}s) linear forwards;
+}
+
+confetti {
+    animation: getreadyplayer 0s (#{$bpm * 44}s) linear forwards;
+    visibility: hidden;
+}
+
+killlights {
+    animation: killplayer 0s (#{$bpm * 60}s) linear forwards;
+}
+
+killlights:nth-of-type(1) {
+    animation: killlights (#{$bpm / 4}s) (#{$bpm * 60}s) linear forwards;
+}
+
+@keyframes killlights {
+    99% {
+        scale: 1;
+    }
+
+    100% {
+        transform: rotateX(40deg) scaleY(2);
+        scale: 0;
+    }
+}
+
+player2:nth-of-type(3) > u {
+    animation: getreadyplayer 0s (#{$bpm * 44}s) linear forwards;
+}
+
+player2:nth-of-type(3) {
+    animation: killplayer 0s (#{$bpm * 60}s) linear forwards;
+}
+
+player5 > u {
+    animation: getreadyplayer 0s (#{$bpm * 60}s) linear forwards;
+    visibility: hidden;
+}
+#stop-radio {
+    animation: killplayer 0s (#{$bpm * 68}s) linear forwards;
+}
+section {
+    animation: killplayer 0s .1s linear forwards;
+}
+
+//@import "badge";
+badge {
+    filter: drop-shadow(1em 1em 0 $wht) drop-shadow(-2em -1em 0 $wht);
+    font-size: .2rem;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    height: 60em;
+    width: 50em;
+    mix-blend-mode: plus-lighter;
+    animation: go (#{$bpm / 8}s) (#{$bpm / 2}s) ease-in-out forwards;
+
+    @keyframes go {
+        100% {
+            transform: scale(0) rotate(320deg);
+        }
+    }
+
+    & > u:nth-of-type(1) {
+        background: $brand;
+        width: 50em;
+        height: 50em;
+        border-radius: 0 0 25em 25em;
+        transform: translate3d(0,10em,0) rotate(-10deg);
+
+        &:before {
+            background: $brand;
+            width: 50em;
+            height: 50em;
+            border-radius: 0 30em 0 30em;
+            transform: translate3d(0,-20em,0) skewY(-38deg);
+        }
+    }
+
+    & > u:nth-of-type(4) {
+        background: $brand;
+        width: 50em;
+        height: 13em;
+        border-radius: 0 0 50% 50%;
+        transform: translate3d(-2em, 17em, 0) skewX(10deg) skewY(-1deg);
+    }
+    //teeth
+    & > u:nth-of-type(2) {
+        width: 7em;
+        height: 15em;
+        background: $wht;
+        border-radius: 1em;
+        transform: translate3d(19em, 22.5em, 0) skewY(0deg) rotate(-4deg);
+        box-shadow: 0 0 0 .5em $wht;
+
+        &:before {
+            width: 7em;
+            height: 15em;
+            background: $wht;
+            border-radius: 1em;
+            transform: translate3d(9.5em,0, 0) skewY(0deg) rotate(0deg);
+            box-shadow: 0 0 0 .5em $wht;
+        }
+
+        &:after {
+            width: 4.5em;
+            height: 15em;
+            background: $wht;
+            border-radius: 1em;
+            transform: translate3d(18.75em, .5em, 0) skewY(7deg) rotate(0deg);
+            box-shadow: 0 0 0 .25em $wht;
+        }
+    }
+
+    & > u:nth-of-type(3) {
+        width: 6em;
+        height: 15em;
+        background: $wht;
+        border-radius: 1em;
+        transform: translate3d(10.5em, 24.5em, 0) skewY(-17deg) rotate(-4deg);
+        box-shadow: 0 0 0 .25em $wht;
+
+        &:before {
+            width: 4.5em;
+            height: 16em;
+            background: $wht;
+            border-radius: 2em 2em 1em 1em;
+            transform: translate3d(-6.5em,-1em, 0) skewY(0deg) rotate(0deg);
+            box-shadow: 0 0 0 .25em $wht;
+        }
+
+        &:after {
+            width: 2.75em;
+            height: 15em;
+            background: $wht;
+            border-radius: 1em;
+            transform: translate3d(33em, 10em, 0) skewY(37deg) rotate(0deg);
+            box-shadow: 0 0 0 .25em $wht;
+        }
+    }
+    //bottom teeth
+
+    & > u:nth-of-type(5) {
+        width: 45em;
+        height: 45em;
+        border-radius: 50%;
+        transform: translate3d(3.5em, 12em, 0) skewY(0deg) rotate(0deg);
+        overflow: hidden;
+
+        u:nth-of-type(1) {
+            width: 7em;
+            height: 15em;
+            background: $wht;
+            border-radius: 1em 1em 3em 3em;
+            transform: translate3d(16.5em, 28em, 0) skewX(-3deg) rotate(-4deg);
+            box-shadow: 0 0 0 .5em $wht;
+
+            &:before {
+                width: 7em;
+                height: 15em;
+                background: $wht;
+                border-radius: 1em 1em 3em 3em;
+                transform: translate3d(9.5em,0, 0) skewY(0deg) rotate(0deg);
+                box-shadow: 0 0 0 .5em $wht;
+            }
+
+            &:after {
+                width: 4.3em;
+                height: 14em;
+                background: $wht;
+                border-radius: 1em 1em 2em 2em;
+                transform: translate3d(18.75em,0, 0) skewY(6deg) rotate(0deg);
+                box-shadow: 0 0 0 .25em $wht;
+            }
+        }
+
+        & > u:nth-of-type(2) {
+            width: 6em;
+            height: 15em;
+            background: $wht;
+            border-radius: 1em 1em 3em 3em;
+            transform: translate3d(8.25em, 29.75em, 0) skewY(-18deg) skewX(-3.5deg) rotate(-4deg);
+            box-shadow: 0 0 0 .25em $wht;
+
+            &:before {
+                width: 5em;
+                height: 15em;
+                background: $wht;
+                border-radius: 1em 1em 2em 2em;
+                transform: translate3d(-7em,0, 0) skewY(0deg) rotate(0deg);
+                box-shadow: 0 0 0 .25em $wht;
+            }
+
+            &:after {
+                width: 3em;
+                height: 15em;
+                background: $wht;
+                border-radius: 1em;
+                transform: translate3d(33em, 10em, 0) skewY(37deg) rotate(0deg);
+                box-shadow: 0 0 0 .25em $wht;
+            }
+        }
+    }
+    //eye
+    & > u:nth-of-type(6) {
+        background: $wht;
+        width: 18em;
+        height: 26em;
+        border-radius: 50% 50% 45% 55%;
+        transform: translate3d(10em, 0em, 0) skewX(6deg) scale(1.1);
+
+        &:before {
+            width: 7em;
+            height: 9em;
+            background: $brand;
+            border-radius: 50%;
+            transform: translate3d(5em, 10em, 0) skewY(0deg) rotate(0deg);
+        }
+
+        &:after {
+            width: 3em;
+            height: 3em;
+            background: $wht;
+            transform: translate3d(9em, 10em, 0) skewY(0deg) rotate(-2deg);
+        }
+    }
+    //eye
+    & > u:nth-of-type(7) {
+        background: $wht;
+        width: 11em;
+        height: 20em;
+        border-radius: 50% 0 50% 50% / 50% 0 100% 50%;
+        transform: translate3d(31em, 3em, 0) scale(1.1);
+
+        &:before {
+            width: 6em;
+            height: 8em;
+            background: $brand;
+            border-radius: 50%;
+            transform: translate3d(3em, 6.5em, 0) skewY(0deg) rotate(-5deg);
+        }
+
+        &:after {
+            transform: translate3d(3.4em, 4.96em, 0) scale(0.7) rotate(3deg);
+            border: 6em solid $none;
+            border-top-color: $brand;
+            border-right-color: $brand;
+        }
+    }
+}
+
+//@import "css-sig";
+sig {
+    &, * {
+        height: 9.25em;
+        overflow: hidden;
+        border-radius: .5em;
+    }
+
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: .5rem;
+    color: $lblue;
+    width: 10em;
+    transform: skewX(10deg) scaleY(.45) rotate(2deg);
+
+    &:before, *:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5em;
+        height: 5em;
+        background: currentColor;
+        transform: translate3d(-2.5em,0,0) rotate(-45deg);
+        box-shadow: -3em 3em 0 0 currentColor;
+        border-radius: .5em 2em .5em 2em;
+    }
+
+    * {
+        width: 5em;
+        transform: translate3d(3.75em,0,0) scaleY(.95);
+        display: block !important;
+
+        &:before {
+            transform: translate3d(-3em,-2em,0) rotate(-45deg);
+            box-shadow: -3em 3em 0 0 currentColor, -6em 6em 0 0 currentColor;
+            border-radius: .5em;
+        }
+    }
+}
+
+a {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    width: 4rem;
+    aspect-ratio: 1/1;
+}
+
+a:hover, a:focus {
+    sig {
+        color: $red;
+    }
+}
+
+
+*:not(#play-radio):not(h1), *:before, *:after {
+    animation-play-state: paused !important;
+}
+
+body:has(#play-radio:checked) {
+    &, *, *:before, *:after {
+        animation-play-state: running !important;
+    }
+
+    #stop-radio {
+        scale: 1;
+    }
+
+    play {
+        scale: 0;
+    }
+    section {
+        scale: 0;
+    }
+}
