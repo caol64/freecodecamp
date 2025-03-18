@@ -1,0 +1,57 @@
+@property --r {
+  syntax: "<percentage>";
+  initial-value: 0%;
+  inherits: false;
+}
+@property --g {
+  syntax: "<percentage>";
+  initial-value: 0%;
+  inherits: false;
+}
+html, body, div {
+  display: grid;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  background: #121212;
+}
+
+svg[aria-hidden=true][height="0"] {
+  position: fixed;
+}
+
+div {
+  place-self: center;
+  border: solid 1em gold;
+  width: 25em;
+  aspect-ratio: 1;
+  border-radius: 3em;
+}
+div::after {
+  --l: rgb(var(--r) var(--g) 0%),
+  		rgb(calc(100% - var(--r)) calc(100% - var(--g)) 0%);
+  margin: -2em;
+  background: radial-gradient(var(--l)), linear-gradient(var(--l)), conic-gradient(at 0 100%, var(--l) 25%);
+  background-blend-mode: difference;
+  clip-path: inset(3em round 1em);
+  animation: r 4.7s ease-in-out -1.93s infinite alternate, g 4.3s ease-in-out -2.37s infinite alternate;
+  filter: url(#smoke) invert(1) saturate(2);
+  content: "";
+}
+
+@keyframes r {
+  to {
+    --r: 100% ;
+  }
+}
+@keyframes g {
+  to {
+    --g: 100% ;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */
